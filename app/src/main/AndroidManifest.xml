@@ -31,10 +31,9 @@
             android:value="AIzaSyCAwIw4Yo8I11xVFe98hAw4LBrSg4HDxy8" />
 
         <activity android:name=".locateClinic" />
-        <activity android:name=".clinicInformation" />
+        <activity android:name=".clinicInformation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PetOwner.personalInformation" />
         <activity android:name=".PetOwner.Login" />
     </application>
-
 </manifest>

@@ -61,22 +61,29 @@ public class petListView extends AppCompatActivity {
                 public void onSuccess(String response) throws JSONException {
                     if (response != null) {
                         JSONArray jsonArray = new JSONArray(response);
-                        JSONArray pet = new JSONArray();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            JSONObject jsonObject1 = jsonObject.getJSONObject("pet");
-                            String pet_name = jsonObject1.getString("pet_name");
-                            String pet_species = jsonObject1.getString("petSpecies_id");
-                            String pet_breed = jsonObject1.getString("breed_name");
-                            String pet_gender = jsonObject1.getString("pet_gender");
-                            String pet_DOB = jsonObject1.getString("pet_DOB");
-                            String pet_color = jsonObject1.getString("pet_color");
-                            petArrayList.add(new Pet(pet_name,pet_species, pet_breed,pet_gender,pet_DOB,pet_color));
+                        if(jsonArray.length() > 0) {
+                            JSONArray pet = new JSONArray();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                JSONObject jsonObject1 = jsonObject.getJSONObject("pet");
+                                String pet_name = jsonObject1.getString("pet_name");
+                                String pet_species = jsonObject1.getString("petSpecies_id");
+                                String pet_breed = jsonObject1.getString("breed_name");
+                                String pet_gender = jsonObject1.getString("pet_gender");
+                                String pet_DOB = jsonObject1.getString("pet_DOB");
+                                String pet_color = jsonObject1.getString("pet_color");
+                                petArrayList.add(new Pet(pet_name, pet_species, pet_breed, pet_gender, pet_DOB, pet_color));
+                            }
+                            mAdapter = new PetListAdapter(petArrayList);
+                            recyclerPet.setLayoutManager(mLayoutManager);
+                            recyclerPet.setAdapter(mAdapter);
+                        }else{
+                            TextView emptylist;
+                            emptylist = findViewById(R.id.empty);
+                            emptylist.setText("Press the + button above to add you pet");
                         }
-                        mAdapter = new PetListAdapter(petArrayList);
-                        recyclerPet.setLayoutManager(mLayoutManager);
-                        recyclerPet.setAdapter(mAdapter);
                     } else {
+                        Log.i("mm", response);
                         ShowAlert.showAlert(petListView.this, "Something went wrong. atay" );
 //                        Toast.makeText(Login.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }

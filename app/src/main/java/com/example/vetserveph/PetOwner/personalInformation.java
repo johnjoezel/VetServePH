@@ -42,7 +42,6 @@ public class personalInformation extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Registration");
         setContentView(R.layout.activity_personal_information);
         txtfirstname = findViewById(R.id.txtfirstname);
         txtmname = findViewById(R.id.txtmname);

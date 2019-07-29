@@ -33,13 +33,13 @@ public class LogoutRequest {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.i("ariko",response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
 
                             if (jsonObject.getBoolean("error")) {
                                 Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
                             } else {
+                                Log.i("ariko",response);
                                 Toast.makeText(context, jsonObject.getString("msg"), Toast.LENGTH_LONG).show();
                                 SharedPrefManager.getInstance(context).logout();
                                 Intent intent = new Intent(context, Login.class);

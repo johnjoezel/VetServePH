@@ -1,7 +1,7 @@
 package com.example.vetserveph.Others;
 
 public class Constants {
-    private static final String LOCALHOST="192.168.1.13";
+    private static final String LOCALHOST="192.168.1.10";
     private static final String ROOT_URL="http://"+LOCALHOST+"/vetserveph/controller/";
     public static final String URL_REGISTER_USER=ROOT_URL+"petowner_registration.php/";
     public static final String URL_GET_IMAGE="http://"+LOCALHOST+"/vetserveph/uploads/";

@@ -26,9 +26,7 @@
         <ImageView
             android:id="@+id/icon5"
             android:layout_width="match_parent"
-
             android:layout_height="67dp"
-
             app:srcCompat="@drawable/pets" />
 
         <TextView

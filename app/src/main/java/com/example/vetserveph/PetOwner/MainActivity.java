@@ -79,12 +79,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         clinicfinder = findViewById(R.id.clinicfinder);
-        clinicfinder.setOnClickListener(this);
+
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(SharedPrefManager.getInstance(this).isLoggedIn()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new ownerDashboardFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+        }else{
+            startActivity(new Intent(this,Login.class));
+        }
 
     }
 
@@ -115,10 +122,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View view) {
         int id = view.getId();
 
-        switch(id){
-            case R.id.clinicfinder:
-                startActivity(new Intent(MainActivity.this, locateClinic.class));
-                break;
-        }
     }
 }
