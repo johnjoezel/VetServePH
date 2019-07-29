@@ -1,6 +1,7 @@
 package com.example.vetserveph.PetOwner;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,8 +17,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vetserveph.Others.CallBacks;
+import com.example.vetserveph.Others.SharedPrefManager;
 import com.example.vetserveph.Others.ShowAlert;
 import com.example.vetserveph.R;
 import com.example.vetserveph.Requests.AddPetRequest;
@@ -39,7 +42,7 @@ public class addPet extends AppCompatActivity implements AdapterView.OnItemSelec
     DatePickerDialog dialog;
     Spinner spnBreeds, spnrGender, spnrSpecies;
     Button btnaddpet;
-    EditText petdateofbirth, txtpetname;
+    EditText petdateofbirth, txtpetname, petcolor;
     Typeface tfavv;
     String petbreed, petspecies, petgender;
     private ArrayList<String> data = new ArrayList<>();
@@ -55,6 +58,7 @@ public class addPet extends AppCompatActivity implements AdapterView.OnItemSelec
         spnrGender = findViewById(R.id.spnrGender);
         btnaddpet = findViewById(R.id.btnaddpet);
         txtpetname = findViewById(R.id.txtpetname);
+        petcolor = findViewById(R.id.petColor);
         petdateofbirth = findViewById(R.id.petdateofbirth);
         petdateofbirth.setOnClickListener(this);
         btnaddpet.setOnClickListener(this);
@@ -144,32 +148,42 @@ public class addPet extends AppCompatActivity implements AdapterView.OnItemSelec
                 };
                 break;
             case R.id.btnaddpet:
+                String petOwner = SharedPrefManager.getInstance(this).getKeyUsername();
                 String petname= txtpetname.getText().toString().trim();
                 String finalpetspecies= petspecies.trim();
                 String finalpetbreed= petbreed.trim();
                 String finalpetgender= petgender.trim();
+                String finalpetcolor = petcolor.getText().toString().trim();
                 String petbirthday= petdateofbirth.getText().toString().trim();
+                data.add(petOwner);
                 data.add(petname);
                 data.add(finalpetspecies);
                 data.add(finalpetbreed);
                 data.add(finalpetgender);
+                data.add(finalpetcolor);
                 data.add(petbirthday);
                 addPet();
                 break;
         }
     }
     private void addPet(){
+        final ProgressDialog progressDialog;
+        progressDialog= new ProgressDialog(addPet.this);
+        progressDialog.setMessage("Please wait....");
+        progressDialog.show();
         AddPetRequest.addPet(this, new CallBacks() {
             @Override
             public void onSuccess(String response) throws JSONException {
                 Log.i("response", response + "  ///asdfasdf");
+                progressDialog.dismiss();
                 if(response!=null) {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.getBoolean("error")) {
                             ShowAlert.showAlert(addPet.this, jsonObject.getString("msg"));
                         } else {
-                            startActivity(new Intent(getApplicationContext(), Login.class));
+                            ShowAlert.showAlert(addPet.this,"Added Successfully");
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

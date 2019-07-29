@@ -1,17 +1,22 @@
-package com.example.vetserveph.Others;
+package com.example.vetserveph.PetOwner;
 
 public class Pet {
     String pet_name;
     String species;
     String breed;
     String gender;
-    String age;
-    public Pet(String pet_name, String species, String breed, String gender, String age) {
+    String color;
+    private String dob;
+
+
+
+    public Pet(String pet_name, String species, String breed, String gender, String dob, String color) {
         this.pet_name = pet_name;
         this.species = species;
         this.breed = breed;
         this.gender = gender;
-        this.age = age;
+        this.dob = dob;
+        this.color = color;
     }
 
     public String getPet_name() {
@@ -30,7 +35,12 @@ public class Pet {
         return gender;
     }
 
-    public String getAge() {
-        return age;
+    public String getDob() {
+        return dob;
     }
+
+    public String getColor() {
+        return color;
+    }
+
 }

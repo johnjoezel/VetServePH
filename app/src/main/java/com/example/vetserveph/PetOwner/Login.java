@@ -4,13 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.vetserveph.MainActivity;
 import com.example.vetserveph.Others.CallBacks;
 import com.example.vetserveph.Others.SharedPrefManager;
 import com.example.vetserveph.Others.ShowAlert;
@@ -23,11 +22,12 @@ import org.json.JSONObject;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
+    ImageView gg;
     EditText txtusername, txtpassword;
     Button btnlogin;
     TextView btnsignup;
     Validation validation = new Validation();
-        private String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,19 +48,29 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SharedPrefManager.getInstance(this).getKeyUsername() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            return;
+        }
+
+    }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnlogin:
-                Log.i("login", "pressed");
-
-//                if (validation.validateNormalInput(txtusername) && validation.validateNormalInput(txtpassword)) {
-//
-//                }
-                final String username = txtusername.getText().toString().trim();
-                final String password = txtpassword.getText().toString().trim();
-                login(username, password);
+                if (validation.validateNormalInput(txtusername) && validation.validateNormalInput(txtpassword)) {
+                    final String username = txtusername.getText().toString().trim();
+                    final String password = txtpassword.getText().toString().trim();
+                    login(username, password);
+                }
                 break;
         }
     }
@@ -80,9 +90,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                         if (jsonObject.getBoolean("error")) {
                             ShowAlert.showAlert(Login.this,jsonObject.getString("msg"));
                         } else {
-
+                            SharedPrefManager.getInstance(Login.this).userLogin(username);
                             try{
-                                startActivity(new Intent(getApplicationContext(), ownerDashboard.class));
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
 
                             }catch (Exception e){
                                 e.printStackTrace();

@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.vetserveph.MainActivity;
 import com.example.vetserveph.Others.CallBacks;
 import com.example.vetserveph.Others.ShowAlert;
 import com.example.vetserveph.Others.Validation;

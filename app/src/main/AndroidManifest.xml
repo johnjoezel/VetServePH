@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".PetOwner.petListView"></activity>
-        <activity android:name=".PetOwner.Login">
+        <activity android:name=".PetOwner.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,9 +32,9 @@
 
         <activity android:name=".locateClinic" />
         <activity android:name=".clinicInformation" />
-        <activity android:name=".PetOwner.ownerDashboard" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PetOwner.personalInformation" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".PetOwner.Login" />
     </application>
 
 </manifest>

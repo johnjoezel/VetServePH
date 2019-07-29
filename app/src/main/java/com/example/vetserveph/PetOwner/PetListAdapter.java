@@ -1,4 +1,4 @@
-package com.example.vetserveph.Others;
+package com.example.vetserveph.PetOwner;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

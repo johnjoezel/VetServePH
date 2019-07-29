@@ -36,28 +36,34 @@ package com.example.vetserveph.PetOwner;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.vetserveph.Others.SharedPrefManager;
 import com.example.vetserveph.R;
+import com.example.vetserveph.Requests.LogoutRequest;
 import com.example.vetserveph.locateClinic;
 
-public class ownerDashboard extends AppCompatActivity {
-       // implements NavigationView.OnNavigationItemSelectedListener  {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    // implements NavigationView.OnNavigationItemSelectedListener  {
     ImageView clinicfinder, forpets;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_owner_dashboard);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -75,22 +81,11 @@ public class ownerDashboard extends AppCompatActivity {
         toggle.syncState();
 
         clinicfinder = findViewById(R.id.clinicfinder);
-        clinicfinder.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(ownerDashboard.this, locateClinic.class);
-                startActivity(intent);
-            }
-        });
+        clinicfinder.setOnClickListener(this);
 
-        forpets = findViewById(R.id.forpets);
-        forpets.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(ownerDashboard.this, petListView.class);
-                startActivity(intent);
-            }
-        });
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -103,37 +98,27 @@ public class ownerDashboard extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        Log.i("ari", item.toString());
+        if (id == R.id.nav_logout) {
+            LogoutRequest.logoutRequest(this);
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
-    //@SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//        FragmentManager fragmentManager = getFragmentManager();
-//
-//        if (id == R.id.nav_first_layout) {
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.content_frame
-//                            , new FirstFragment())
-//                    .commit();
-//        } else if (id == R.id.nav_second_layout) {
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.content_frame
-//                            , new SecondFragment())
-//                    .commit();
-//        } else if (id == R.id.nav_third_layout) {
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.content_frame
-//                            , new ThirdFragment())
-//                    .commit();
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
+        switch(id){
+            case R.id.clinicfinder:
+                startActivity(new Intent(MainActivity.this, locateClinic.class));
+                break;
+        }
+    }
 }
